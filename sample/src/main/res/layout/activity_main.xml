@@ -284,11 +284,21 @@
             android:layout_below="@id/imageViewFace"
             android:visibility="gone" />
 
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_below="@id/visualizerView"
+            android:layout_marginBottom="0dp"/>
+
         <TextView
             android:id="@+id/tvLog"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/visualizerView"
+            android:layout_below="@id/viewFinder"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginBottom="50dp"
             android:lineSpacingExtra="5dp"
             android:padding="20dp"
