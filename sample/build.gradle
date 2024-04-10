@@ -57,8 +57,9 @@ dependencies {
 //    implementation 'com.robotemi:sdk:1.130.4'
     implementation 'com.google.code.gson:gson:2.9.0'
 
-
     // Camera
     def cameraxVersion = "1.2.2"
     implementation "androidx.camera:camera-view:${cameraxVersion}"
+    implementation "androidx.camera:camera-camera2:${cameraxVersion}"
+    implementation "androidx.camera:camera-lifecycle:${cameraxVersion}"
 }

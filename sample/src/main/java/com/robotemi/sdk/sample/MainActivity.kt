@@ -13,6 +13,7 @@ import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.RemoteException
@@ -85,6 +86,14 @@ import java.util.*
 import java.util.concurrent.Executors
 import kotlin.concurrent.thread
 
+// Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.core.content.ContextCompat
+import java.util.concurrent.ExecutorService
+
 
 class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     ConversationViewAttachesListener, WakeupWordListener, ActivityStreamPublishListener,
@@ -118,6 +127,22 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 printLog("CallState $callState, ${callState.lowLightMode}")
             }
         }
+    }
+
+    // Camera
+    private lateinit var viewFinder: PreviewView
+    private lateinit var cameraExecutor: ExecutorService
+
+    private fun requestPermissions() {
+        if (!hasPermissions()) {
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_CAMERA)
+        } else {
+            startCamera()
+        }
+    }
+
+    private fun hasPermissions() = REQUIRED_PERMISSIONS.all {
+        checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED
     }
 
     @SuppressLint("SetTextI18n")
@@ -157,6 +182,56 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         registerReceiver(debugReceiver, IntentFilter(TemiBroadcastReceiver.ACTION_DEBUG))
 
         registerReceiver(assistantReceiver, IntentFilter(AssistantChangeReceiver.ACTION_ASSISTANT_SELECTION))
+
+        // Camera
+        viewFinder = findViewById(R.id.viewFinder)
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        requestPermissions()
+    }
+
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
+        cameraProviderFuture.addListener({
+            // CameraProvider
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            // Preview
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(viewFinder.surfaceProvider)
+                }
+
+            // Select back camera as a default, or front camera if you prefer
+            val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+
+            try {
+                // Unbind use cases before rebinding
+                cameraProvider.unbindAll()
+
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview)
+            } catch (exc: Exception) {
+                // Handle any errors (e.g., CameraAccessException)
+                printLog("Use case binding failed ${exc.message}")
+            }
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                // All permissions have been granted
+                startCamera()
+            } else {
+                // Permissions were denied. Handle the failure to obtain permission.
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
@@ -263,6 +338,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
         unregisterReceiver(assistantReceiver)
         super.onDestroy()
+
+        // Camera
+        cameraExecutor.shutdown()
     }
 
     private fun initOnClickListener() {
@@ -2204,6 +2282,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
+
+        // Camera
+        private val REQUEST_CODE_CAMERA = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
 
         /**
          * Checks if the app has permission to write to device storage
