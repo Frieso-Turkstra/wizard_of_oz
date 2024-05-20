@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
 
     // Server poller
-    private var serverUrl: String = "http://145.97.157.25:5000"
+    private var serverUrl: String = "http://145.97.159.130:5000"
     private lateinit var stateMonitor: Job // Job for managing the coroutine lifecycle for state updates
 
     // Display icon
@@ -169,10 +169,10 @@ class MainActivity : AppCompatActivity() {
         var y = 0f
         var degrees = 0
         if (keyStates.getBoolean("Key.left")) {
-            y = 0.8f
+            y = -0.8f // switched around because camera view for wizard flips the movement
         }
         if (keyStates.getBoolean("Key.right")) {
-            y = -0.8f
+            y = 0.8f // switched around because camera view for wizard flips the movement
         }
         if (keyStates.getBoolean("Key.up") && !keyCtrl) {
             x = 0.3f
