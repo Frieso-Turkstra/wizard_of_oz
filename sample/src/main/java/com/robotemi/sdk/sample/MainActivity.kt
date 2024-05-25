@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
 
     // Server poller
-    private var serverUrl: String = "http://145.97.159.130:5000"
+    private var serverUrl: String = "[enter your serverUrl here]"
     private lateinit var stateMonitor: Job // Job for managing the coroutine lifecycle for state updates
 
     // Display icon
