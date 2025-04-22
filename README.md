@@ -9,7 +9,11 @@ A graphical interface is provided to send commands to the robot. These commands 
 * Navigate freely using the camera and the arrow/wasd keys
 * Tilt the camera up and down
 * Let the robot say something, use either freely typed text or predefined templates for faster response times
+* Define scenario's to group speech templates together
 * Display on the GUI what the user has said to the robot
+* Show "Thinking..." or "Listening..." icons on the GUI to indicate the robot's state.
+
+All issued commands and the dialogue between the robot and the user(s) are saved to a local log file for analysis purposes.
 
 ## How to use
 
