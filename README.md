@@ -1,57 +1,24 @@
-temi SDK
-========
+# Wizard of Oz
 
-![temi](temi.jpg)
+This application implements remote control of a Temi robot, thus allowing researchers to conduct a [Wizard of Oz experiment](https://en.wikipedia.org/wiki/Wizard_of_Oz_experiment).
 
-For more information please see [the website][1].
+## Functionality 
 
+A graphical interface is provided to send commands to the robot. These commands include both motor and speech controls:
+* Send the robot to a predefined location on a map
+* Navigate freely using the camera and the arrow/wasd keys
+* Tilt the camera up and down
+* Let the robot say something, use either freely typed text or predefined templates for faster response times
+* Display on the GUI what the user has said to the robot
 
-Download
---------
+## How to use
 
-Download the latest AAR from [Maven Central][2] or grab via Gradle:
-```groovy
-implementation 'com.robotemi:sdk:1.131.4'
-```
+Install the sample app on your Temi. Check out the official Temi documentation for instructions if you are unsure how to do this.
+On the computer that you want to control Temi with, you should have the `wizard-of-oz` directory and the necessary requirements:
 
-or Maven:
-```xml
-<dependency>
-  <groupId>com.robotemi</groupId>
-  <artifactId>sdk</artifactId>
-  <version>1.131.4</version>
-</dependency>
-```
+`pip install wizard-of-oz/requirements.txt`
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+Make sure the computer and Temi are on the same WiFi network. Open the app on Temi and if necessary, accept any permission requests.
+Now run the graphical user interface on the computer with this command: 
 
-Documentation
---------
-
-* [English][4]
-* [简体中文][5]
-
-License
--------
-
-    Copyright 2022 temi USA inc.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-
-[1]: https://www.robotemi.com/developers/
-[2]: https://search.maven.org/search?q=g:com.robotemi
-[3]: https://www.xda-developers.com/install-adb-windows-macos-linux/
-[4]: https://github.com/robotemi/sdk/wiki
-[5]: https://github.com/robotemi/sdk/wiki/Home_chn
-[snap]: https://oss.sonatype.org/content/repositories/snapshots/
+`python wizard_of_oz/main.py`
