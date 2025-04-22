@@ -18,7 +18,6 @@ On the computer that you want to control Temi with, you should have the `wizard-
 
 `pip install wizard-of-oz/requirements.txt`
 
-Make sure the computer and Temi are on the same WiFi network. Open the app on Temi and if necessary, accept any permission requests.
-Now run the graphical user interface on the computer with this command: 
+Make sure the computer and Temi are on the same WiFi network. Edit the server url in `sample/src/main/java/com/robotemi/sdk/sample/MainActivity.kt` to your GUI's address. By default this is 0.0.0.0:5000, you can change this in `wizard_of_oz/main.py`. Open the app on Temi and if necessary, accept any permission requests. Now run the graphical user interface on the computer with this command: 
 
 `python wizard_of_oz/main.py`
