@@ -22,6 +22,6 @@ On the computer that you want to control Temi with, you should have the `wizard-
 
 `pip install wizard-of-oz/requirements.txt`
 
-To enable communication between Temi and your computer, edit the server url in `sample/src/main/java/com/robotemi/sdk/sample/MainActivity.kt` to your GUI's address, e.g. http://[your-ip-address]:5000 (port 5000 is the default but you can change this in `wizard_of_oz/main.py`). Open the app on Temi and if necessary, accept any permission requests. Now run the graphical user interface on the computer with this command: 
+To enable communication between Temi and your computer, edit the server url in `sample/src/main/java/com/robotemi/sdk/sample/MainActivity.kt` to your GUI's address, e.g. `http://[your-ip-address]:5000` (port 5000 is the default but you can change this in `wizard_of_oz/main.py`). Open the app on Temi and if necessary, accept any permission requests. Now run the graphical user interface on the computer with this command: 
 
 `python wizard_of_oz/main.py`
